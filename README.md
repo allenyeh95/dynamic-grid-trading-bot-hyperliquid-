@@ -19,4 +19,4 @@ The bot features an intelligent feedback loop that scales based on your Position
 
 Welcome to use my pythonanywhere Referrals : https://www.pythonanywhere.com/?affiliate_id=01528366
 
-meantime , my hyperliquid referrals code : https://app.hyperliquid.xyz/join/V77TV
+Meantime , my hyperliquid referrals code : https://app.hyperliquid.xyz/join/V77TV
