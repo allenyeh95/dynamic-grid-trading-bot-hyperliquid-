@@ -13,23 +13,23 @@ from hyperliquid.utils import constants
 from hyperliquid.exchange import Exchange
 from hyperliquid.info import Info
 
-# ============ 基礎配置 ============
+# ============ Basic configuration ============
 ACCOUNT_ADDRESS = "your address"
 PRIVATE_KEY = "your private key"
 TG_TOKEN = "TOKEN"
 TG_CHAT_ID = "ID"
 COIN = "COIN"
 
-# ============ 參數 ============
+# ============ parameter ============
 UPDATE_THRESHOLD, LIQUIDATION_PCT = 0.0035, 0.0085
 GRID_LEVELS, GRID_RANGE_PCT = 69, 0.02
 UPDATE_INTERVAL = 15
 MAX_POSITION_SIZE = 1.8
-REPORT_INTERVAL = 1800  # 30min
+REPORT_INTERVAL = 3600  # 1hr
 last_report_time = 0
 last_center_price = 0.0
 
-# ============ 全域狀態 ============
+# ============ Global status ============
 status_data = {
     "position": 0.0, "pnl": 0.0, "pnl_pct": 0.0,
     "price": 0.0, "account_value": 0.0, "entry_px": 0.0
@@ -39,7 +39,7 @@ log_lines = []
 log_max_lines = 50
 running = True
 
-# ============ TG 通知 ============
+# ============ TG notification ============
 def send_tg_msg(msg):
     try:
         url = f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage"
@@ -71,7 +71,7 @@ def get_7day_total_pnl():
     except:
         return 0.0
 
-# ============ 更新狀態 ============
+# ============ update state ============
 def update_status(info, coin):
     try:
         all_mids = info.all_mids()
@@ -182,7 +182,7 @@ def draw_screen(stdscr):
         stdscr.refresh()
         time.sleep(0.5)
 
-# ============ 交易邏輯 ============
+# ============ trading logic ============
 def run_grid_bot(exchange, info, coin):
     global last_center_price, running, last_report_time
 
