@@ -22,9 +22,9 @@ COIN = "COIN"
 
 # ============ parameter ============
 UPDATE_THRESHOLD, LIQUIDATION_PCT = 0.0035, 0.0085
-GRID_LEVELS, GRID_RANGE_PCT = 69, 0.02
+GRID_LEVELS, GRID_RANGE_PCT = 69, 0.025
 UPDATE_INTERVAL = 15
-MAX_POSITION_SIZE = 1.8
+MAX_POSITION_SIZE = 1.2
 REPORT_INTERVAL = 3600  # 1hr
 last_report_time = 0
 last_center_price = 0.0
@@ -208,9 +208,9 @@ def run_grid_bot(exchange, info, coin):
     if not is_first:
         deviation = abs(mid_price - last_center_price) / last_center_price
         if deviation >= LIQUIDATION_PCT:
-            add_log(f"🆘 最後防線觸發 ({deviation:.2%})，強制平倉！")
+            add_log(f"觸發 ({deviation:.2%})！")
             exchange.market_close(coin)
-            send_tg_msg(f"🆘 {coin} 觸發 {LIQUIDATION_PCT*100}% 平倉線，已強制平倉。")
+            send_tg_msg(f" {coin} 觸發 {LIQUIDATION_PCT*100}% ")
             running = False
             return
         if deviation < UPDATE_THRESHOLD:
@@ -229,15 +229,15 @@ def run_grid_bot(exchange, info, coin):
         add_log(f"撤單失敗: {e}")
 
     # 根據持倉調整格子數量
-    if current_pos > 1.0:
+    if current_pos > 0.8:
         buy_qty = 0.01
-        sell_qty = 0.03
-    elif current_pos < -1.0:
-        buy_qty = 0.03
+        sell_qty = 0.025
+    elif current_pos < -0.8:
+        buy_qty = 0.025
         sell_qty = 0.01
     else:
-        buy_qty = 0.02
-        sell_qty = 0.02
+        buy_qty = 0.01
+        sell_qty = 0.01
 
     lower = mid_price * (1 - GRID_RANGE_PCT)
     upper = mid_price * (1 + GRID_RANGE_PCT)
